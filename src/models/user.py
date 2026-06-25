@@ -1,16 +1,16 @@
-from dataclasses import dataclass, field
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, Numeric
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+from src.storage.db import Base
 
-from models.job import Job
-from models.response import Response
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False)
+    name = Column(String(255), nullable=False)
+    hashed_password = Column(String(255), nullable=False)
+    role = Column(String(20), nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
 
-
-@dataclass
-class User:
-    id: int
-    name: str
-    email: str
-    hashed_password: str
-    is_company: bool
-
-    jobs: list[Job] = field(default_factory=list)
-    responses: list[Response] = field(default_factory=list)
+    jobs = relationship("Job", back_populates="employer")
+    responses = relationship("Response", back_populates="applicant")
