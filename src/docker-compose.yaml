@@ -1,7 +1,6 @@
-version: '3'
 services:
   mir.postgres:
-    image: postgres:latest
+    image: postgres:16
     hostname: mir.postgres
     container_name: mir.postgres
     ports:
@@ -15,7 +14,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-    - ${APP_PORT}:8000
+    - ${APP_PORT}:8080
     env_file:
     - ./.env
   mir.redis:
