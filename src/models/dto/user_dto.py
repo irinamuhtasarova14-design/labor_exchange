@@ -1,20 +1,24 @@
-from pydantic import BaseModel, EmailStr
 from typing import Optional
+from bases.base_dto import BaseDTO
+import datetime
 from models.enums import UserRole
 
-class UserDTO(BaseModel):
-    id: int
+class UserCreateDTO(BaseDTO):
+    email: str
     name: str
-    email: EmailStr
-    role: UserRole
-
-class UserCreateDTO(BaseModel):
-    name: str
-    email: EmailStr
     password: str
     role: UserRole
 
-class UserUpdateDTO(BaseModel):
+class UserDTO(BaseDTO):
+    id: int
+    email: str
+    name: str
+    hashed_password: str
+    role: UserRole
+    created_at: datetime.datetime
+
+class UserUpdateDTO(BaseDTO):
+    email: Optional[str] = None
     name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    hashed_password: Optional[str] = None
     role: Optional[UserRole] = None
